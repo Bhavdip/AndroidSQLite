@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.adb.test.sql.model.FoodMarchantModel;
 
@@ -53,6 +54,28 @@ public class FoodMarchantDAO extends BaseDAO{
 		aCursor.close();
 		return allMarchants;
 		
+	}
+	
+	public synchronized Cursor getSearchMarchantQuery(CharSequence aMarchant)
+	{
+		Cursor likeCursor = null;
+		if(!TextUtils.isEmpty(aMarchant) && aMarchant.length() > 0)
+		{
+			String[] args = { ("%"+ aMarchant+ "%"), ("%"+ aMarchant+ "%"), ("%"+ aMarchant+ "%") };
+		    likeCursor = mSQLitBaseDAO.rawQuery("select _id, marchant, owner, address, phone from foodMarchant where marchant LIKE ? OR owner LIKE ? OR Phone LIKE ?", args);
+		    if(likeCursor != null)
+		    {
+		    	return likeCursor;
+		    }	
+		}
+		else
+		{
+			//Return the full list
+			likeCursor = getAllMarchantsCursor();
+		}
+	    
+	    return likeCursor;
+	    
 	}
 	
 	public Cursor getAllMarchantsCursor()

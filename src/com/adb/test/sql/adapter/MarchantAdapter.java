@@ -6,12 +6,13 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.adb.test.sql.R;
 import com.adb.test.sql.model.FoodMarchantModel;
 
-public class MarchantAdapter extends CursorAdapter{
+public class MarchantAdapter extends CursorAdapter implements Filterable{
 
 	private LayoutInflater mLayoutInflater;
 	
@@ -83,5 +84,9 @@ public class MarchantAdapter extends CursorAdapter{
 		TextView textview_phone;
 		TextView textview_address;
 	}
-
+	
+	@Override
+	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
+		return super.runQueryOnBackgroundThread(constraint);
+	}
 }
